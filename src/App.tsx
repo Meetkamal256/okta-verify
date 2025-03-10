@@ -4,11 +4,13 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import { Security, useOktaAuth } from "@okta/okta-react";
-import Login from "./pages/Login";
+import { useNavigate } from "react-router-dom";
+import { LoginCallback, Security, useOktaAuth } from "@okta/okta-react";
 import Dashboard from "./pages/Dashboard";
-import AuthCallback from "./pages/AuthCallback";
 import oktaAuth from "./okta.config";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import { JSX } from "react";
 
 // Custom ProtectedRoute Component
 const ProtectedRoute = ({ element }: { element: JSX.Element }) => {
@@ -19,23 +21,22 @@ const ProtectedRoute = ({ element }: { element: JSX.Element }) => {
 };
 
 const App = () => {
+  const navigate = useNavigate();
+  
   return (
-    
-      <Security
-        oktaAuth={oktaAuth}
-        restoreOriginalUri={(oktaAuth, originalUri) =>
-          window.location.replace(originalUri || "/")
-        }
-      >
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/login/callback" element={<AuthCallback />} />
-          <Route
-            path="/dashboard"
-            element={<ProtectedRoute element={<Dashboard />} />}
-          />
-        </Routes>
-      </Security>
+    <Security
+      oktaAuth={oktaAuth}
+      restoreOriginalUri={(_oktaAuth, originalUri) => {
+        navigate(originalUri || "/");
+      }}
+    >
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/login/callback" element={<LoginCallback />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard />} />} />
+      </Routes>
+    </Security>
   );
 };
 
