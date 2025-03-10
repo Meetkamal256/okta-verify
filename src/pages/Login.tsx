@@ -1,15 +1,23 @@
-import "./login.css"; 
+import { useOktaAuth } from "@okta/okta-react";
+import "./login.css";
 
 const Login = () => {
+  const { oktaAuth, authState } = useOktaAuth();
+  
+  const handleLogin = async () => {
+    await oktaAuth.signInWithRedirect();
+  };
+  
+  if (authState?.isAuthenticated) {
+    window.location.href = "/dashboard"; 
+    return null;
+  }
+
   return (
     <div className="login-container">
       <div className="login-box">
         <h2>Welcome Back</h2>
-        <form>
-          <input type="email" placeholder="Email" required />
-          <input type="password" placeholder="Password" required />
-          <button type="submit">Login</button>
-        </form>
+        <button onClick={handleLogin}>Login with Okta</button>
       </div>
     </div>
   );
