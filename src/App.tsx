@@ -1,8 +1,4 @@
-import {
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { LoginCallback, Security, useOktaAuth } from "@okta/okta-react";
 import Dashboard from "./pages/dashboard/Dashboard";
@@ -15,7 +11,8 @@ import { JSX } from "react";
 const ProtectedRoute = ({ element }: { element: JSX.Element }) => {
   const { authState } = useOktaAuth();
   
-  if (!authState) return <p>Loading...</p>;
+  if (!authState || authState.isPending) return <p>Loading...</p>;
+  
   return authState.isAuthenticated ? element : <Navigate to="/" />;
 };
 
@@ -26,7 +23,7 @@ const App = () => {
     <Security
       oktaAuth={oktaAuth}
       restoreOriginalUri={(_oktaAuth, originalUri) => {
-        navigate(originalUri || "/");
+        navigate(originalUri || "/dashboard");
       }}
     >
       <Routes>
