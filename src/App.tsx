@@ -38,6 +38,7 @@ const App = () => {
           path="/dashboard"
           element={<ProtectedRoute element={<Dashboard />} />}
         />
+        <Route path="*" element={<h2>Page Not Found</h2>} />
       </Routes>
     </Security>
   );
