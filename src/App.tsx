@@ -6,10 +6,10 @@ import {
 } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { LoginCallback, Security, useOktaAuth } from "@okta/okta-react";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/dashboard/Dashboard";
 import oktaAuth from "./okta.config";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
+import Register from "./pages/register/Register";
+import Login from "./pages/login/Login";
 import { JSX } from "react";
 
 // Custom ProtectedRoute Component
@@ -34,7 +34,10 @@ const App = () => {
         <Route path="/" element={<Login />} />
         <Route path="/login/callback" element={<LoginCallback />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard />} />} />
+        <Route
+          path="/dashboard"
+          element={<ProtectedRoute element={<Dashboard />} />}
+        />
       </Routes>
     </Security>
   );

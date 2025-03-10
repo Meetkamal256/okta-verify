@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const AuthCallback = () => {
   const { oktaAuth, authState } = useOktaAuth();
   const navigate = useNavigate();
-
+  
   useEffect(() => {
     const handleAuth = async () => {
       try {
@@ -15,12 +15,12 @@ const AuthCallback = () => {
         console.error("Authentication error", error);
       }
     };
-
+    
     if (!authState?.isAuthenticated) {
       handleAuth();
     }
   }, [oktaAuth, authState, navigate]);
-
+  
   return <p>Processing login...</p>;
 };
 
